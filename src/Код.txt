@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace WpfApp5
+{
+    /// <summary>
+    /// Логика взаимодействия для CavePage.xaml
+    /// </summary>
+    public partial class CavePage : Page
+    {
+        private bool task1Completed = false;
+
+        public CavePage()
+        {
+            InitializeComponent();
+            MainWindow.SetLocation("Пещера");
+        }
+
+        private void BtnTask1_Click(object sender, RoutedEventArgs e)
+        {
+            if (!task1Completed)
+            {
+                MainWindow.AddScore(5);
+                task1Completed = true;
+                btnTask1.IsEnabled = false;
+                tbTask1Status.Text = "+5 очков";
+                tbTask1Status.Foreground = Brushes.Green;
+            }
+        }
+
+        private void BtnTask2_Click(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
+            int chance = random.Next(1, 101);
+
+            if (chance <= 50)
+            {
+                MainWindow.AddScore(3);
+                MessageBox.Show("Вы получили энергию.\n+3 очка", "Удача",
+                              MessageBoxButton.OK, MessageBoxImage.Information);
+                tbTask2Status.Text = "+3 очка";
+                tbTask2Status.Foreground = Brushes.Green;
+            }
+            else
+            {
+                MainWindow.AddScore(-2);
+                MessageBox.Show("Вы получили ожог.\n-2 очка", "Неудача",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                tbTask2Status.Text = "-2 очка";
+                tbTask2Status.Foreground = Brushes.Red;
+            }
+        }
+
+        private void GoToForest_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ForestPage());
+        }
+
+        private void GoToStart_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new StartPage());
+        }
+
+    }
+}
